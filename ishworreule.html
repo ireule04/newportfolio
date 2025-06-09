@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ishwor Kumar Reule - Developer</title>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+        
+        /* --- Base Styles --- */
+        body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+        .skill-bar { height: 10px; transition: width 1.5s ease-in-out; }
+        .card-hover:hover { transform: translateY(-10px); }
+        .navbar { backdrop-filter: blur(10px); }
+        
+        /* --- Themes --- */
+        :root, .light { --bg-primary: #f8f5f0; --bg-secondary: #ffffff; --text-primary: #1f2937; --text-secondary: #4b5563; --accent: #3b82f6; --shadow: rgba(0,0,0,0.07); --header-bg: rgba(248,245,240,0.85); --border-color: #e5e7eb; }
+        .dark { --bg-primary: #111827; --bg-secondary: #1F2937; --text-primary: #F3F4F6; --text-secondary: #D1D5DB; --accent: #6366F1; --shadow: rgba(99,102,241,0.15); --header-bg: rgba(17,24,39,0.85); --border-color: #374151; }
+        .hacker { --bg-primary: #000; --bg-secondary: #0d0208; --text-primary: #39ff14; --text-secondary: #00ff41; --accent: #0ff0fc; --shadow: rgba(0,255,153,0.25); --header-bg: rgba(0,8,8,0.85); --border-color: #0d2b13; font-family: 'Fira Code', monospace !important; --neon-red: #ff073a; --neon-cyan: #00f9ff; --neon-magenta: #ff00f1; }
+
+        /* --- Global Theme Application --- */
+        body { background-color: var(--bg-primary); color: var(--text-primary); transition: background-color 0.5s ease, color 0.5s ease; }
+        .card-hover, input, textarea { background-color: var(--bg-secondary) !important; border-color: var(--border-color) !important; color: var(--text-primary) !important; box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow); transition: all 0.3s ease; }
+        a, .text-blue-500 { color: var(--accent) !important; }
+        .navbar { background-color: var(--header-bg) !important; border-bottom: 1px solid var(--border-color); }
+        .border-blue-500 { border-color: var(--accent) !important; }
+        .dark .bg-gray-100, .hacker .bg-gray-100 { background-color: var(--bg-primary) !important; }
+
+        /* --- Light/Dark Theme "Kinetic Shuffle" & Zoom Animation --- */
+        #subtitle-container .letter-shuffle { display: inline-block; opacity: 0; transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0)); transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.8s; }
+        #subtitle-container.active .letter-shuffle { opacity: 1; transform: translate(0,0) rotate(0); }
+        #subtitle-container.active .letter-shuffle:hover { transform: scale(1.5); color: var(--accent); z-index: 10; position: relative; transition: transform 0.2s ease; }
+
+        /* --- Hacker Theme Specifics --- */
+        .hacker-visual, .hacker-popup { display: none; }
+        .hacker .hacker-visual, .hacker .hacker-popup { display: block; }
+        .hacker * { animation: text-flicker 4s infinite alternate; }
+        @keyframes text-flicker { 0%,18%,22%,25%,53%,57%,100% { text-shadow: 0 0 4px #fff, 0 0 10px var(--text-primary), 0 0 18px var(--accent); } 20%,24%,55% { text-shadow: none; } }
+        .hacker .glitch-text { position: relative; color: var(--text-primary); }
+        .hacker .glitch-text::before, .hacker .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; background: var(--bg-primary); clip: rect(0, 900px, 0, 0); }
+        .hacker .glitch-text::before { left: 2px; text-shadow: -2px 0 var(--neon-magenta); animation: glitch-anim-1 2s infinite linear alternate-reverse; }
+        .hacker .glitch-text::after { left: -2px; text-shadow: -2px 0 var(--neon-cyan); animation: glitch-anim-2 3s infinite linear alternate-reverse; }
+        @keyframes glitch-anim-1 { 0%{clip:rect(24px,9999px,99px,0)} 10%{clip:rect(17px,9999px,6px,0)} 20%{clip:rect(80% 0 2% 0)} 30%{clip:rect(40px,9999px,67px,0)} 40%{clip:rect(82px,9999px,50px,0)} 50%{clip:rect(19px,9999px,83px,0)} 60%{clip:rect(92% 0 3% 0)} 70%{clip:rect(34px,9999px,56px,0)} 80%{clip:rect(42px,9999px,80px,0)} 90%{clip:rect(81px,9999px,93px,0)} 100%{clip:rect(23px,9999px,74px,0)} }
+        @keyframes glitch-anim-2 { 0%{clip:rect(37px,9999px,12px,0)} 10%{clip:rect(94px,9999px,38px,0)} 20%{clip:rect(2% 0 83% 0)} 30%{clip:rect(54px,9999px,68px,0)} 40%{clip:rect(5px,9999px,60px,0)} 50%{clip:rect(27px,9999px,81px,0)} 60%{clip:rect(72px,9999px,4px,0)} 70%{clip:rect(99px,9999px,53px,0)} 80%{clip:rect(90px,9999px,45px,0)} 90%{clip:rect(42px,9999px,14px,0)} 100%{clip:rect(45px,9999px,48px,0)} }
+        .hacker .scanline-overlay { position: fixed; inset: 0; z-index: -9; background: linear-gradient(0deg, rgba(18, 16, 16, 0) 0, rgba(0,0,0,0.25) 50%, rgba(18, 16, 16, 0) 100%); background-size: 100% 4px; animation: scanline-anim 10s linear infinite; }
+        @keyframes scanline-anim { to { background-position: 0 200px; } }
+        .hacker .crt-effect { position: relative; overflow: hidden; }
+        .hacker .crt-effect img { animation: image-glitch 5s infinite steps(1); }
+        @keyframes image-glitch { 0%,100%{clip-path:inset(0 0 0 0)} 5%{clip-path:inset(10% 0 85% 0)} 10%{clip-path:inset(90% 0 5% 0)} 15%{clip-path:inset(40% 0 42% 0)} 20%{clip-path:inset(0 0 0 0)} }
+        .hacker .crt-effect::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 3px, 4px 100%; animation: scanline-anim 20s linear infinite; }
+        .hacker .screen-glitch-line { position: fixed; left: 0; width: 100%; height: 2px; background: var(--accent); opacity: 0.5; z-index: 1000; pointer-events: none; animation: screen-glitch-anim 7s infinite; }
+        @keyframes screen-glitch-anim { 0%,100%{top:50%;opacity:0} 49%{top:50%;opacity:0} 50%{top:20%;opacity:0.5} 51%{top:80%;opacity:0.2} 52%{top:50%;opacity:0} }
+        .hacker-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; animation: popup-in 0.3s ease-out; }
+        .hacker-popup.hidden { animation: popup-out 0.3s ease-in forwards; pointer-events: none; }
+        .popup-content { background-color: var(--bg-secondary); border: 1px solid var(--accent); box-shadow: 0 0 30px var(--accent); padding: 0.5rem; width: 90vw; max-width: 400px; }
+        .popup-header { display: flex; justify-content: space-between; align-items: center; background-color: var(--accent); color: #000; padding: 0.25rem 0.5rem; }
+        .popup-header .dots { display: flex; gap: 0.5rem; } .popup-header .dot { width: 12px; height: 12px; border-radius: 50%; background-color: rgba(0,0,0,0.3); }
+        .popup-body { padding: 1.5rem; }
+        .popup-body p::after { content: '▋'; animation: blink 0.7s infinite; } .popup-body p.completed::after { content: ''; }
+        @keyframes popup-in { from { opacity: 0; transform: translate(-50%, -40%) scale(0.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+        @keyframes popup-out { to { opacity: 0; transform: translate(-50%, -40%) scale(0.9); } }
+        .binary-trail { position: absolute; pointer-events: none; color: var(--text-primary); font-family: 'Fira Code', monospace; font-size: 14px; animation: fade-out 1s forwards; }
+        @keyframes fade-out { to { opacity: 0; transform: translateY(-20px); } }
+        .hacker .footer-icon:hover { animation: intense-glitch 0.5s infinite; }
+        @keyframes intense-glitch { 0%,100%{transform:translate(0,0)} 25%{transform:translate(3px,-2px)} 50%{transform:translate(-2px,2px)} 75%{transform:translate(1px,-1px)} }
+        
+        /* --- Glowing Theme Switcher --- */
+        .theme-switcher button { transition: all 0.3s ease; }
+        .dark #light-theme, .hacker #light-theme { box-shadow: 0 0 10px #fff, 0 0 15px #fff; border-color: #fff !important; }
+        .light #dark-theme { box-shadow: 0 0 0 2px var(--text-primary); }
+        .dark #dark-theme, .hacker #dark-theme { box-shadow: 0 0 10px var(--accent), 0 0 15px var(--accent); }
+        .light .active-theme, .dark .active-theme, .hacker .active-theme { border-width: 3px !important; transform: scale(1.15); box-shadow: 0 0 15px var(--accent); }
+        
+        /* --- General Animations --- */
+        .cursor-sparkle { position: absolute; pointer-events: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: sparkle-anim 0.8s forwards; }
+        @keyframes sparkle-anim { to { transform: scale(0); opacity: 0; } }
+        .floating { animation: heroFloatWobble 8s ease-in-out infinite; }
+        @keyframes heroFloatWobble { 0%{transform:translateY(0px) rotate(-1deg)} 50%{transform:translateY(-20px) rotate(1deg)} 100%{transform:translateY(0px) rotate(-1deg)} }
+        .light-bubbles .bubble { position: absolute; bottom: -150px; background: rgba(59,130,246,0.1); border-radius: 50%; animation: bubbleRise linear infinite; }
+        @keyframes bubbleRise { 100% { transform: translateY(-120vh) translateX(5vw); } }
+        .light .light-bubbles .bubble:nth-child(1){width:40px;height:40px;left:10%;animation-duration:15s} .light .light-bubbles .bubble:nth-child(2){width:20px;height:20px;left:20%;animation-duration:9s;animation-delay:2s} .light .light-bubbles .bubble:nth-child(3){width:50px;height:50px;left:35%;animation-duration:20s} .light .light-bubbles .bubble:nth-child(4){width:30px;height:30px;left:50%;animation-duration:12s;animation-delay:5s} .light .light-bubbles .bubble:nth-child(5){width:60px;height:60px;left:70%;animation-duration:18s;animation-delay:1s} .light .light-bubbles .bubble:nth-child(6){width:35px;height:35px;left:85%;animation-duration:10s;animation-delay:3s}
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="light-bubbles fixed inset-0 -z-20"></div>
+    <div id="particles-js" class="fixed inset-0 -z-10 opacity-20 dark:opacity-10"></div>
+    <div class="hacker-visual"><div class="screen-glitch-line"></div><div class="scanline-overlay"></div><canvas id="hackerCanvas" class="absolute inset-0 z-0 opacity-20"></canvas><div id="hackerTextScroller" class="fixed bottom-0 left-0 w-full h-8 bg-black/80 flex items-center overflow-hidden z-50"><div class="whitespace-nowrap text-green-500 font-mono text-sm hacker-text-scroller pl-full"></div></div></div>
+    
+    <!-- Hacker Popups -->
+ <div id="hacker-popup-1" class="hacker-popup hidden">
+  <div class="popup-content">
+    <div class="popup-header">
+      <span class="popup-title">KERNEL_PANIC_ALERT</span>
+      <div class="dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    <div class="popup-body">
+      <p id="popup-1-line-1">Critical system breach detected. Memory address 0x00FF7A compromised.</p>
+      <p id="popup-1-line-2" class="mt-2 text-red-500">⚠️ Kernel panic initiated. Immediate shutdown protocol active.</p>
+      <button class="popup-close-btn w-full mt-4 bg-red-500 text-black p-1">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<div id="hacker-popup-2" class="hacker-popup hidden">
+  <div class="popup-content">
+    <div class="popup-header">
+      <span class="popup-title">FIREWALL_STATUS</span>
+      <div class="dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    <div class="popup-body">
+      <p id="popup-2-line-1">Firewall defense protocol alpha-9 engaged. Port scanning neutralized.</p>
+      <p id="popup-2-line-2" class="mt-2 text-green-400">✅ All entry points currently secure. Threats isolated.</p>
+      <button class="popup-close-btn w-full mt-4 bg-green-500 text-black p-1">ACKNOWLEDGE</button>
+    </div>
+  </div>
+</div>
+
+<div id="hacker-popup-3" class="hacker-popup hidden">
+  <div class="popup-content">
+    <div class="popup-header">
+      <span class="popup-title">DATA_TRANSFER</span>
+      <div class="dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    <div class="popup-body">
+      <p id="popup-3-line-1">Encrypted data packet intercepted. Verifying transmission signature...</p>
+      <p id="popup-3-line-2" class="mt-2 text-cyan-400">📡 Hash matched. Transfer integrity: 100%. Proceed to decrypt.</p>
+      <button class="popup-close-btn w-full mt-4 bg-cyan-500 text-black p-1">VERIFY</button>
+    </div>
+  </div>
+</div>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed w-full z-50 shadow-lg"><div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between h-16"><div class="flex items-center"><a href="#home" class="text-xl font-bold">Ishwor Reule</a></div><div class="hidden md:flex md:items-center md:space-x-4"><a href="#home" class="hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium">Home</a><a href="#about" class="hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium">About</a><a href="#services" class="hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium">Services</a><a href="#skills" class="hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium">Skills</a><a href="#contact" class="hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium">Contact</a><div class="theme-switcher flex items-center ml-4 space-x-2 border-l border-gray-200 dark:border-gray-700 pl-4"><button id="light-theme" title="Light Theme" class="w-6 h-6 rounded-full bg-white border-2 border-blue-500"></button><button id="dark-theme" title="Dark Theme" class="w-6 h-6 rounded-full bg-gray-900 border-2 border-gray-700"></button><button id="hacker-theme" title="Hacker Theme" class="w-6 h-6 rounded-full bg-green-900 border-2 border-green-400"></button></div></div><div class="-mr-2 flex items-center md:hidden"><button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md focus:outline-none"><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg></button></div></div></div><div id="mobile-menu" class="hidden md:hidden"><div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="#home" class="block px-3 py-2 rounded-md text-base font-medium">Home</a><a href="#about" class="block px-3 py-2 rounded-md text-base font-medium">About</a><a href="#services" class="block px-3 py-2 rounded-md text-base font-medium">Services</a><a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium">Skills</a><a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium">Contact</a><div class="theme-switcher flex justify-center items-center pt-4 mt-4 border-t border-gray-200 dark:border-gray-700 space-x-4"><button id="light-theme-mobile" title="Light Theme" class="w-8 h-8 rounded-full bg-white border-2 border-blue-500"></button><button id="dark-theme-mobile" title="Dark Theme" class="w-8 h-8 rounded-full bg-gray-900 border-2 border-gray-700"></button><button id="hacker-theme-mobile" title="Hacker Theme" class="w-8 h-8 rounded-full bg-green-900 border-2 border-green-400"></button></div></div></div></nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-24 md:pt-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 text-center md:text-left">
+                    <p class="mb-2">Hello, I am</p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4" data-text="Ishwor Kumar Reule">Ishwor Kumar Reule</h1>
+                    <div class="h-10"><h2 id="subtitle-container" class="text-2xl md:text-3xl font-semibold mb-6"></h2></div>
+                    <a href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCKCCRsVqKhrglFRsxKLKsSGCzcprHZcnqQhlvDKltGBqTzKWBcqnPnJJqMCVTZMMRrDznNV" class="inline-block bg-blue-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 mt-4">Hire Me</a>
+                </div>
+                <div class="md:w-1/2 flex justify-center"><div class="crt-effect"><img src="https://ishworreule.com.np/bb.png" alt="Ishwor Reule" class="floating rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-blue-500 shadow-xl"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OTHER SECTIONS -->
+    <section id="about" class="py-20 bg-gray-100"><div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"><h2 class="text-3xl font-bold text-center mb-16">About Me</h2><div class="flex flex-col md:flex-row-reverse items-center gap-12"><div class="md:w-1/2 md:pl-12"><p class="text-lg mb-4">I'm Ishwor, a <span class="font-medium">Full Stack Developer</span> passionate about crafting elegant and efficient solutions to complex problems.</p><div class="p-6 rounded-lg bg-white card-hover"><p>With strong expertise in Java, Spring Boot, and modern web technologies, I thrive on building scalable applications with clean, maintainable code. My goal is to translate innovative ideas into tangible, high-quality software.</p><div class="mt-6"><a href="#" class="inline-block bg-blue-500 text-white font-medium py-2 px-6 rounded-lg">Download CV</a></div></div></div><div class="md:w-1/2 flex justify-center items-center"><div class="grid grid-cols-3 gap-6 text-5xl md:text-6xl text-center"><i class="fab fa-java text-blue-500 transition-transform hover:scale-110"></i><i class="fab fa-js-square text-yellow-400 transition-transform hover:scale-110"></i><i class="fab fa-react text-blue-400 transition-transform hover:scale-110"></i><i class="fas fa-database transition-transform hover:scale-110"></i><i class="fab fa-git-alt text-orange-600 transition-transform hover:scale-110"></i><i class="fab fa-docker text-blue-500 transition-transform hover:scale-110"></i></div></div></div></div></section>
+    <section id="services" class="py-20"><div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"><h2 class="text-3xl font-bold text-center mb-16">Services Offered</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-8"><div class="p-8 rounded-xl card-hover text-center"><div class="text-blue-500 mb-4"><i class="fas fa-server text-4xl"></i></div><h3 class="text-xl font-semibold mb-3">Backend Development</h3><p>Robust and scalable server-side applications using Java, Spring Boot, and microservices architecture.</p></div><div class="p-8 rounded-xl card-hover text-center"><div class="text-blue-500 mb-4"><i class="fas fa-laptop-code text-4xl"></i></div><h3 class="text-xl font-semibold mb-3">Frontend Development</h3><p>Modern, responsive user interfaces with frameworks like React and Vue, focusing on great UX.</p></div><div class="p-8 rounded-xl card-hover text-center"><div class="text-blue-500 mb-4"><i class="fas fa-cloud text-4xl"></i></div><h3 class="text-xl font-semibold mb-3">DevOps & Cloud</h3><p>CI/CD pipeline implementation, containerization with Docker, and deployment on cloud platforms.</p></div></div></div></section>
+    <section id="skills" class="py-20 bg-gray-100"><div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"><h2 class="text-3xl font-bold text-center mb-4">My Skills</h2><p class="text-center max-w-2xl mx-auto mb-16">A snapshot of my creative and technical capabilities.</p><div class="flex flex-col md:flex-row gap-12"><div class="md:w-1/2"><h3 class="text-xl font-semibold mb-4">Technical Proficiencies</h3><p class="mb-8">I specialize in full-stack development, creating efficient applications from the database to the user interface. My experience spans both front-end and back-end technologies, underpinned by a strong foundation in software engineering principles.</p><a href="#contact" class="inline-block bg-blue-500 text-white font-medium py-2 px-6 rounded-lg">Let's Talk</a></div><div class="md:w-1/2"><div class="space-y-6"><div class="skill-item"><div class="flex justify-between mb-1"><span>Java</span><span>90%</span></div><div class="w-full bg-gray-300 rounded-full h-2.5"><div class="bg-blue-500 skill-bar rounded-full h-2.5" style="width:0" data-width="90%"></div></div></div><div class="skill-item"><div class="flex justify-between mb-1"><span>Spring Boot</span><span>85%</span></div><div class="w-full bg-gray-300 rounded-full h-2.5"><div class="bg-blue-500 skill-bar rounded-full h-2.5" style="width:0" data-width="85%"></div></div></div><div class="skill-item"><div class="flex justify-between mb-1"><span>JavaScript & React</span><span>80%</span></div><div class="w-full bg-gray-300 rounded-full h-2.5"><div class="bg-blue-500 skill-bar rounded-full h-2.5" style="width:0" data-width="80%"></div></div></div><div class="skill-item"><div class="flex justify-between mb-1"><span>SQL & Databases</span><span>80%</span></div><div class="w-full bg-gray-300 rounded-full h-2.5"><div class="bg-blue-500 skill-bar rounded-full h-2.5" style="width:0" data-width="80%"></div></div></div><div class="skill-item"><div class="flex justify-between mb-1"><span>HTML & CSS</span><span>95%</span></div><div class="w-full bg-gray-300 rounded-full h-2.5"><div class="bg-blue-500 skill-bar rounded-full h-2.5" style="width:0" data-width="95%"></div></div></div></div></div></div></div></section>
+    <section id="contact" class="py-20"><div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"><h2 class="text-3xl font-bold text-center mb-16">Contact Me</h2><div class="flex flex-col md:flex-row gap-12"><div class="md:w-1/2"><h3 class="text-xl font-semibold mb-6">Get in Touch</h3><p class="mb-6">I'm currently available for freelance work and open to discussing new projects. Feel free to reach out!</p><div class="space-y-6"><div class="flex items-center"><i class="fas fa-map-marker-alt w-6 text-center text-blue-500"></i><span class="ml-3">Dang, Nepal</span></div><div class="flex items-center"><i class="fas fa-envelope w-6 text-center text-blue-500"></i><span class="ml-3">info@ikr.com.np</span></div><div class="flex items-center"><i class="fas fa-globe w-6 text-center text-blue-500"></i><span class="ml-3">www.ikr.com.np</span></div></div></div><div class="md:w-1/2"><h3 class="text-xl font-semibold mb-6">Send a Message</h3><form id="contact-form" class="space-y-4"><div id="form-message" class="hidden p-4 rounded-lg text-center"></div><input type="text" name="name" placeholder="Name" required class="w-full px-4 py-3 rounded-lg"><input type="email" name="email" placeholder="Email" required class="w-full px-4 py-3 rounded-lg"><input type="text" name="subject" placeholder="Subject" required class="w-full px-4 py-3 rounded-lg"><textarea rows="5" name="message" placeholder="Message" required class="w-full px-4 py-3 rounded-lg"></textarea><button type="submit" class="w-full bg-blue-500 text-white font-medium py-3 px-6 rounded-lg">Send Message</button></form></div></div></div></section>
+    <footer class="bg-gray-900 text-white py-12"><div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-8"><div><p class="text-xl font-bold mb-2">Ishwor Kumar Reule</p><p class="text-gray-400">© 2024 All rights reserved. Created by <a href="https://www.linkedin.com/in/ishwor-kr-reule-1a6820229/" class="font-medium hover:text-white">i_Reule</a></p></div><div class="flex space-x-6"><a href="#" class="footer-icon text-gray-400 hover:text-white text-2xl"><i class="fab fa-facebook-f"></i></a><a href="#" class="footer-icon text-gray-400 hover:text-white text-2xl"><i class="fab fa-twitter"></i></a><a href="https://www.linkedin.com/in/ishwor-kr-reule-1a6820229/" class="footer-icon text-gray-400 hover:text-white text-2xl"><i class="fab fa-linkedin-in"></i></a><a href="#" class="footer-icon text-gray-400 hover:text-white text-2xl"><i class="fab fa-github"></i></a></div></div><div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm"><p id="random-quote">Loading a random tech quote...</p></div></div></footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const docElement = document.documentElement;
+        let hackerIntervals = [];
+        let subtitleAnimationTimeout;
+        let popupTimeouts = [];
+        let mouseTrailListener = null;
+
+        const allThemeButtons = document.querySelectorAll('.theme-switcher button');
+
+        // --- THEME MANAGEMENT ---
+        function applyTheme(theme) {
+            docElement.className = theme;
+            localStorage.setItem('portfolio_theme', theme);
+
+            allThemeButtons.forEach(b => b.classList.remove('active-theme'));
+            document.querySelectorAll(`#${theme}-theme, #${theme}-theme-mobile`).forEach(b => b.classList.add('active-theme'));
+            
+            // Clear all previous theme's timers and listeners
+            clearTimeout(subtitleAnimationTimeout);
+            clearInterval(subtitleAnimationTimeout);
+            popupTimeouts.forEach(clearTimeout);
+            popupTimeouts = [];
+            document.querySelectorAll('.hacker-popup').forEach(p => p.style.display = 'none');
+            document.removeEventListener('mousemove', mouseTrailListener);
+
+            const h1 = document.querySelector('#home h1');
+            
+            if (theme === 'hacker') {
+                h1.classList.add('glitch-text');
+                startHackingSequence();
+                spawnHackerVisuals();
+                // Schedule multiple popups
+                if (!sessionStorage.getItem('popup1_shown')) popupTimeouts.push(setTimeout(() => showHackerPopup('hacker-popup-1'), 4000));
+                if (!sessionStorage.getItem('popup2_shown')) popupTimeouts.push(setTimeout(() => showHackerPopup('hacker-popup-2'), 12000));
+                if (!sessionStorage.getItem('popup3_shown')) popupTimeouts.push(setTimeout(() => showHackerPopup('hacker-popup-3'), 22000));
+            } else {
+                h1.classList.remove('glitch-text');
+                despawnHackerVisuals();
+                startTextShuffle();
+                mouseTrailListener = (e) => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'cursor-sparkle';
+                    document.body.appendChild(sparkle);
+                    sparkle.style.left = `${e.pageX}px`;
+                    sparkle.style.top = `${e.pageY}px`;
+                    setTimeout(() => sparkle.remove(), 800);
+                };
+                document.addEventListener('mousemove', mouseTrailListener);
+            }
+        }
+
+        allThemeButtons.forEach(btn => btn.addEventListener('click', function() { applyTheme(this.id.replace('-theme', '').replace('-mobile', '')); }));
+
+        // --- SUBTITLE ANIMATIONS ---
+        function startTextShuffle() {
+            const container = document.getElementById('subtitle-container');
+            container.innerHTML = '';
+            "I'm a Developer".split('').forEach(char => {
+                const letter = document.createElement('span');
+                letter.className = 'letter-shuffle';
+                letter.textContent = char === ' ' ? '\u00A0' : char;
+                letter.style.setProperty('--x', `${Math.random() * 100 - 50}px`);
+                letter.style.setProperty('--y', `${Math.random() * 60 - 30}px`);
+                letter.style.setProperty('--r', `${Math.random() * 360}deg`);
+                container.appendChild(letter);
+            });
+            subtitleAnimationTimeout = setTimeout(() => { container.classList.add('active'); }, 100);
+        }
+        
+        async function startHackingSequence() {
+            const container = document.getElementById('subtitle-container');
+            container.classList.remove('active');
+            const phrases = ['[INITIALIZING...]', '[AUTH_REQUEST_DENIED]', '[OVERRIDING_SECURITY...]', '[ACCESS_GRANTED]'];
+            const chars = "!<>-_\\/[]{}—=+*^?#";
+
+            async function scrambleText(text) {
+                let currentText = '';
+                for (let i = 0; i < text.length; i++) {
+                    if (!docElement.classList.contains('hacker')) return; // Stop if theme changes
+                    for (let j = 0; j < 3; j++) {
+                        container.textContent = currentText + chars[Math.floor(Math.random() * chars.length)];
+                        await new Promise(resolve => setTimeout(resolve, 20));
+                    }
+                    currentText += text[i];
+                    container.textContent = currentText;
+                }
+            }
+            
+            let i = 0;
+            while (docElement.classList.contains('hacker')) {
+                await scrambleText(phrases[i]);
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                i = (i + 1) % phrases.length;
+            }
+        }
+
+        // --- HACKER THEME VISUALS & POPUP ---
+        function showHackerPopup(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            sessionStorage.setItem(`${id.split('-')[1]}_shown`, 'true');
+            modal.style.display = 'block';
+            modal.classList.remove('hidden');
+
+            const lines = {
+                'popup-1': [{ el: document.getElementById('popup-1-line-1'), text: "Unauthorized access detected. IP logged." }, { el: document.getElementById('popup-1-line-2'), text: "> Threat Level: CRITICAL" }],
+                'popup-2': [{ el: document.getElementById('popup-2-line-1'), text: "System integrity compromised." }, { el: document.getElementById('popup-2-line-2'), text: "> FIREWALL_BREACHED" }],
+                'popup-3': [{ el: document.getElementById('popup-3-line-1'), text: "Extracting 1.2TB of encrypted data..." }, { el: document.getElementById('popup-3-line-2'), text: "> TRANSFER_COMPLETE" }]
+            };
+            const popupLines = lines[id.split('-')[1]];
+            typeOutText(popupLines[0].el, popupLines[0].text, () => {
+                if(popupLines[1]) setTimeout(() => typeOutText(popupLines[1].el, popupLines[1].text), 300);
+            });
+        }
+        function typeOutText(element, text, onComplete = () => {}) { if(!element) return; let i = 0; element.innerHTML = ''; element.classList.remove('completed'); function type() { if (i < text.length) { element.innerHTML += text.charAt(i++); setTimeout(type, 40); } else { element.classList.add('completed'); onComplete(); } } type(); }
+        document.querySelectorAll('.popup-close-btn').forEach(btn => btn.addEventListener('click', (e) => { const modal = e.target.closest('.hacker-popup'); modal.classList.add('hidden'); setTimeout(() => { modal.style.display = 'none'; }, 300); }));
+        function spawnHackerVisuals() { if (hackerIntervals.length > 0) return; initHackerMatrix(); initHackerTextScroller(); mouseTrailListener = (e) => { const trail = document.createElement('div'); trail.className = 'binary-trail'; trail.textContent = Math.random() > 0.5 ? '1' : '0'; document.body.appendChild(trail); trail.style.left = `${e.pageX}px`; trail.style.top = `${e.pageY}px`; setTimeout(() => trail.remove(), 1000); }; document.addEventListener('mousemove', mouseTrailListener); }
+        function despawnHackerVisuals() { hackerIntervals.forEach(clearInterval); hackerIntervals = []; const canvas = document.getElementById('hackerCanvas'); if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height); }
+        function initHackerMatrix() { const canvas = document.getElementById('hackerCanvas'), ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; const chars = "01", fontSize = 14, columns = Math.ceil(canvas.width / fontSize), drops = Array(columns).fill(1).map(() => Math.random() * canvas.height), colors = ['#39ff14', '#0ff0fc', '#9457eb', '#f5f749']; function draw() { ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.font = `${fontSize}px monospace`; for (let i = 0; i < drops.length; i++) { const text = chars.charAt(Math.floor(Math.random() * chars.length)); ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)]; ctx.fillText(text, i * fontSize, drops[i] * fontSize); if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; } } hackerIntervals.push(setInterval(draw, 50)); }
+        function initHackerTextScroller() { const scroller = document.querySelector('.hacker-text-scroller'); if (scroller.dataset.initialized) return; scroller.dataset.initialized = 'true'; let content = "SYSTEM SCANNING... // PORT 22 OPEN // EXECUTING PAYLOAD... // DECRYPTING HASHES... // ACCESS GRANTED // "; scroller.innerHTML = content.repeat(5); let pos = 0; function animate() { pos--; if (pos <= -scroller.scrollWidth / 5) pos = 0; scroller.style.transform = `translateX(${pos}px)`; requestAnimationFrame(animate); } animate(); }
+
+        // --- GENERAL SETUP ---
+        function initialize() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            document.getElementById('mobile-menu-button').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+            window.addEventListener('scroll', () => { document.querySelectorAll('.skill-bar').forEach(bar => { const rect = bar.getBoundingClientRect(); if (rect.top <= window.innerHeight && rect.bottom >= 0 && bar.style.width === '0px') bar.style.width = bar.dataset.width; }); });
+            const quoteEl = document.getElementById('random-quote'); if(quoteEl) { const quotes = ["Code is like humor. When you have to explain it, it's bad.", "First, solve the problem. Then, write the code.", "Debugging is twice as hard as writing the code."]; quoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)]; }
+            if (typeof particlesJS !== 'undefined') particlesJS('particles-js', { particles: { number: { value: 60, density: { enable: true, value_area: 800 } }, color: { value: "#6366F1" }, opacity: { value: 0.4, random: true }, size: { value: 2, random: true }, line_linked: { enable: true, distance: 150, color: "#6366F1", opacity: 0.2 }, move: { enable: true, speed: 1 }}, interactivity: { events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } } } });
+            applyTheme(localStorage.getItem('portfolio_theme') || 'light');
+        }
+        initialize();
+    });
+    </script>
+</body>
+</html>
