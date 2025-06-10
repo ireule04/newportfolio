@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = '';
         for (let i = 0; i < count; i++) {
             const star = document.createElement('div');
-            // 5% chance of being a falling star
             if (Math.random() < 0.05) {
                 star.className = 'falling-star';
                 star.style.left = `${Math.random() * 150}vw`; 
@@ -53,13 +52,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function clearAllVisuals() {
         clearTimeout(subtitleAnimationTimeout);
-        clearInterval(subtitleAnimationTimeout);
         popupTimeouts.forEach(clearTimeout);
         popupTimeouts = [];
-        document.removeEventListener('mousemove', mouseTrailListener);
+        if(mouseTrailListener) {
+            document.removeEventListener('mousemove', mouseTrailListener);
+            mouseTrailListener = null;
+        }
         
-        document.querySelector('.light-bubbles').innerHTML = '';
-        document.querySelector('.dark-stars').innerHTML = '';
+        const lightBubbles = document.querySelector('.light-bubbles');
+        if(lightBubbles) lightBubbles.innerHTML = '';
+        const darkStars = document.querySelector('.dark-stars');
+        if(darkStars) darkStars.innerHTML = '';
 
         hackerIntervals.forEach(clearInterval);
         hackerIntervals = [];
@@ -67,7 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         
         document.querySelectorAll('.hacker-popup').forEach(p => p.classList.add('hidden'));
-        document.querySelector('#home h1').classList.remove('glitch-text');
+        const h1 = document.querySelector('#home h1');
+        if(h1) h1.classList.remove('glitch-text');
     }
 
     // --- THEME MANAGEMENT ---
@@ -111,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- SUBTITLE ANIMATIONS ---
     function startTextShuffle() {
         const container = document.getElementById('subtitle-container');
+        if (!container) return;
         container.innerHTML = '';
         "I'm a Developer".split('').forEach(char => {
             const letter = document.createElement('span');
@@ -126,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     async function startHackingSequence() {
         const container = document.getElementById('subtitle-container');
+        if (!container) return;
         container.classList.remove('active');
         const phrases = ['[INITIALIZING...]', '[AUTH_REQUEST_DENIED]', '[OVERRIDING_SECURITY...]', '[ACCESS_GRANTED]'];
         const chars = "!<>-_\\/[]{}—=+*^?#";
@@ -162,46 +168,142 @@ document.addEventListener('DOMContentLoaded', function() {
             'popup-2': [{ el: document.getElementById('popup-2-line-1'), text: "Attempting to patch remote firewall vulnerability..." }, { el: document.getElementById('popup-2-line-2'), text: "> Rule `deny all` on port 8080 applied." }],
             'popup-3': [{ el: document.getElementById('popup-3-line-1'), text: "Initializing data stream... Encrypting packet 1 of 4096." }, { el: document.getElementById('popup-3-line-2'), text: "> Transfer progress: [████..........] 32%" }]
         };
+        
+        const popupKey = id.split('-').slice(1).join('-');
+        const popupLines = lines[popupKey];
+        if (!popupLines) return;
 
-        const popupLines = lines[id.split('-')[1]];
         typeOutText(popupLines[0].el, popupLines[0].text, () => {
             if(popupLines[1]) setTimeout(() => typeOutText(popupLines[1].el, popupLines[1].text), 300);
         });
     }
 
-    function typeOutText(element, text, onComplete = () => {}) { if(!element) return; let i = 0; element.innerHTML = ''; element.classList.remove('completed'); function type() { if (i < text.length) { element.innerHTML += text.charAt(i++); setTimeout(type, 40); } else { element.classList.add('completed'); onComplete(); } } type(); }
-    
-    function spawnHackerVisuals() { if (hackerIntervals.length > 0) return; initHackerMatrix(); initHackerTextScroller(); mouseTrailListener = (e) => { const trail = document.createElement('div'); trail.className = 'binary-trail'; trail.textContent = Math.random() > 0.5 ? '1' : '0'; document.body.appendChild(trail); trail.style.left = `${e.pageX}px`; trail.style.top = `${e.pageY}px`; setTimeout(() => trail.remove(), 1000); }; document.addEventListener('mousemove', mouseTrailListener); }
-    function initHackerMatrix() { const canvas = document.getElementById('hackerCanvas'), ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; const chars = "01", fontSize = 14, columns = Math.ceil(canvas.width / fontSize), drops = Array(columns).fill(1).map(() => Math.random() * canvas.height), colors = ['#39ff14', '#0ff0fc', '#9457eb', '#f5f749']; function draw() { ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.font = `${fontSize}px monospace`; for (let i = 0; i < drops.length; i++) { const text = chars.charAt(Math.floor(Math.random() * chars.length)); ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)]; ctx.fillText(text, i * fontSize, drops[i] * fontSize); if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; } } hackerIntervals.push(setInterval(draw, 50)); }
-    function initHackerTextScroller() { const scroller = document.querySelector('.hacker-text-scroller'); if (scroller.dataset.initialized) return; scroller.dataset.initialized = 'true'; let content = "SYSTEM SCANNING... // PORT 22 OPEN // EXECUTING PAYLOAD... // DECRYPTING HASHES... // ACCESS GRANTED // "; scroller.innerHTML = content.repeat(5); let pos = 0; function animate() { pos--; if (pos <= -scroller.scrollWidth / 5) pos = 0; scroller.style.transform = `translateX(${pos}px)`; requestAnimationFrame(animate); } animate(); }
-
-    // --- GENERAL SETUP ---
-    function initialize() {
-        document.querySelectorAll('.popup-close-btn').forEach(btn => btn.addEventListener('click', (e) => {
-            const modal = e.target.closest('.hacker-popup');
-            modal.classList.add('hidden');
-            
-            currentPopupIndex++;
-            if (currentPopupIndex < popupSequence.length && docElement.classList.contains('hacker')) {
-                const nextPopupId = popupSequence[currentPopupIndex];
-                popupTimeouts.push(setTimeout(() => showHackerPopup(nextPopupId), 2000));
+    function typeOutText(element, text, onComplete = () => {}) {
+        if (!element) return;
+        let i = 0;
+        element.innerHTML = '';
+        element.classList.remove('completed');
+        function type() {
+            if (i < text.length && docElement.classList.contains('hacker')) {
+                element.innerHTML += text.charAt(i++);
+                setTimeout(type, 40);
+            } else if (i >= text.length) {
+                element.classList.add('completed');
+                onComplete();
             }
-        }));
-
-        const mobileMenu = document.getElementById('mobile-menu');
-        document.getElementById('mobile-menu-button').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        document.querySelectorAll('#mobile-menu a, .navbar a[href^="#"]').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
-        window.addEventListener('scroll', () => { document.querySelectorAll('.skill-bar').forEach(bar => { const rect = bar.getBoundingClientRect(); if (rect.top <= window.innerHeight && rect.bottom >= 0 && bar.style.width === '0px') bar.style.width = bar.dataset.width; }); });
-        const quoteEl = document.getElementById('random-quote'); if(quoteEl) { const quotes = ["Code is like humor. When you have to explain it, it's bad.", "First, solve the problem. Then, write the code.", "Debugging is twice as hard as writing the code."]; quoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)]; }
-        if (typeof particlesJS !== 'undefined') particlesJS('particles-js', { particles: { number: { value: 60, density: { enable: true, value_area: 800 } }, color: { value: "#6366F1" }, opacity: { value: 0.4, random: true }, size: { value: 2, random: true }, line_linked: { enable: true, distance: 150, color: "#6366F1", opacity: 0.2 }, move: { enable: true, speed: 1 }}, interactivity: { events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } } } });
+        }
+        type();
+    }
+    
+    function spawnHackerVisuals() {
+        if (hackerIntervals.length > 0) return;
+        initHackerMatrix();
+        initHackerTextScroller();
+        mouseTrailListener = (e) => {
+            const trail = document.createElement('div');
+            trail.className = 'binary-trail';
+            trail.textContent = Math.random() > 0.5 ? '1' : '0';
+            document.body.appendChild(trail);
+            trail.style.left = `${e.pageX}px`;
+            trail.style.top = `${e.pageY}px`;
+            setTimeout(() => trail.remove(), 1000);
+        };
+        document.addEventListener('mousemove', mouseTrailListener);
+    }
+    
+    function initHackerMatrix() {
+        const canvas = document.getElementById('hackerCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
         
-        allThemeButtons.forEach(btn => btn.addEventListener('click', function() { 
-            const theme = this.id.replace('-theme-mobile', '').replace('-theme', '');
-            applyTheme(theme); 
-        }));
+        canvas.style.pointerEvents = 'none';
 
-        applyTheme(localStorage.getItem('portfolio_theme') || 'light');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const chars = "01", fontSize = 14;
+        const columns = Math.ceil(canvas.width / fontSize);
+        const drops = Array(columns).fill(1).map(() => Math.random() * canvas.height);
+        const colors = ['#39ff14', '#00ff00', '#33ff33'];
+        
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        hackerIntervals.push(setInterval(draw, 40));
+    }
+
+    function initHackerTextScroller() {
+        const scroller = document.getElementById('hacker-text-scroller');
+        if (!scroller) return;
+        let position = 0;
+        const text = '>> Welcome to the Hacker Theme << ';
+        function scroll() {
+            if (!scroller) return;
+            scroller.textContent = text.substring(position) + text.substring(0, position);
+            position = (position + 1) % text.length;
+        }
+        hackerIntervals.push(setInterval(scroll, 200));
+    }
+
+    // --- POPUP CLOSE BUTTON HANDLER ---
+    function setupPopupCloseButtons() {
+        // *** FIX 2: Correct the selector from '.popup-close' to '.popup-close-btn' ***
+        document.querySelectorAll('.popup-close-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const popup = e.target.closest('.hacker-popup');
+                if (popup) {
+                    popup.classList.add('hidden');
+                    if (docElement.classList.contains('hacker')) {
+                        currentPopupIndex++;
+                        if (currentPopupIndex < popupSequence.length) {
+                            popupTimeouts.push(setTimeout(() => showHackerPopup(popupSequence[currentPopupIndex]), 500));
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    // --- THEME BUTTONS EVENT LISTENERS ---
+    function setupThemeButtons() {
+        allThemeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.id.split('-')[0];
+                if (theme === 'hacker' || theme === 'light' || theme === 'dark') {
+                    applyTheme(theme);
+                }
+            });
+        });
+    }
+
+    // --- INITIALIZATION ---
+    function initialize() {
+        setupThemeButtons();
+        setupPopupCloseButtons();
+        const savedTheme = localStorage.getItem('portfolio_theme') || 'light';
+        applyTheme(savedTheme);
     }
 
     initialize();
+
+    window.addEventListener('resize', () => {
+        if (docElement.classList.contains('hacker')) {
+            const canvas = document.getElementById('hackerCanvas');
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        }
+    });
 });

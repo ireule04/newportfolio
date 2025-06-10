@@ -36,7 +36,10 @@ a, .text-blue-500 { color: var(--accent) !important; }
 .hacker .glitch-text::after { left: -2px; text-shadow: -2px 0 var(--neon-cyan); animation: glitch-anim-2 3s infinite linear alternate-reverse; }
 @keyframes glitch-anim-1 { 0%{clip:rect(24px,9999px,99px,0)} 10%{clip:rect(17px,9999px,6px,0)} 20%{clip:rect(80% 0 2% 0)} 30%{clip:rect(40px,9999px,67px,0)} 40%{clip:rect(82px,9999px,50px,0)} 50%{clip:rect(19px,9999px,83px,0)} 60%{clip:rect(92% 0 3% 0)} 70%{clip:rect(34px,9999px,56px,0)} 80%{clip:rect(42px,9999px,80px,0)} 90%{clip:rect(81px,9999px,93px,0)} 100%{clip:rect(23px,9999px,74px,0)} }
 @keyframes glitch-anim-2 { 0%{clip:rect(37px,9999px,12px,0)} 10%{clip:rect(94px,9999px,38px,0)} 20%{clip:rect(2% 0 83% 0)} 30%{clip:rect(54px,9999px,68px,0)} 40%{clip:rect(5px,9999px,60px,0)} 50%{clip:rect(27px,9999px,81px,0)} 60%{clip:rect(72px,9999px,4px,0)} 70%{clip:rect(99px,9999px,53px,0)} 80%{clip:rect(90px,9999px,45px,0)} 90%{clip:rect(42px,9999px,14px,0)} 100%{clip:rect(45px,9999px,48px,0)} }
-.hacker .scanline-overlay { position: fixed; inset: 0; z-index: -9; background: linear-gradient(0deg, rgba(18, 16, 16, 0) 0, rgba(0,0,0,0.25) 50%, rgba(18, 16, 16, 0) 100%); background-size: 100% 4px; animation: scanline-anim 10s linear infinite; }
+
+/* *** FIX 1: ADD POINTER-EVENTS: NONE HERE *** */
+.hacker .scanline-overlay { position: fixed; inset: 0; z-index: -9; background: linear-gradient(0deg, rgba(18, 16, 16, 0) 0, rgba(0,0,0,0.25) 50%, rgba(18, 16, 16, 0) 100%); background-size: 100% 4px; animation: scanline-anim 10s linear infinite; pointer-events: none; }
+
 @keyframes scanline-anim { to { background-position: 0 200px; } }
 .hacker .crt-effect { position: relative; overflow: hidden; }
 .hacker .crt-effect img { animation: image-glitch 5s infinite steps(1); }
