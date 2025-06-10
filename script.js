@@ -68,6 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
         hackerIntervals = [];
         const canvas = document.getElementById('hackerCanvas');
         if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+
+                
+        function initHackerMatrix() { const canvas = document.getElementById('hackerCanvas'), ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; const chars = "01", fontSize = 14, columns = Math.ceil(canvas.width / fontSize), drops = Array(columns).fill(1).map(() => Math.random() * canvas.height), colors = ['#39ff14', '#0ff0fc', '#9457eb', '#f5f749']; function draw() { ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.font = `${fontSize}px monospace`; for (let i = 0; i < drops.length; i++) { const text = chars.charAt(Math.floor(Math.random() * chars.length)); ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)]; ctx.fillText(text, i * fontSize, drops[i] * fontSize); if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; } } hackerIntervals.push(setInterval(draw, 50)); }
+        function initHackerTextScroller() { const scroller = document.querySelector('.hacker-text-scroller'); if (scroller.dataset.initialized) return; scroller.dataset.initialized = 'true'; let content = "SYSTEM SCANNING... // PORT 22 OPEN // EXECUTING PAYLOAD... // DECRYPTING HASHES... // ACCESS GRANTED // "; scroller.innerHTML = content.repeat(5); let pos = 0; function animate() { pos--; if (pos <= -scroller.scrollWidth / 5) pos = 0; scroller.style.transform = `translateX(${pos}px)`; requestAnimationFrame(animate); } animate(); }
+
         
         document.querySelectorAll('.hacker-popup').forEach(p => p.classList.add('hidden'));
         const h1 = document.querySelector('#home h1');
@@ -224,6 +229,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const columns = Math.ceil(canvas.width / fontSize);
         const drops = Array(columns).fill(1).map(() => Math.random() * canvas.height);
         const colors = ['#39ff14', '#00ff00', '#33ff33'];
+
+    
+
         
         function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -286,6 +294,20 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+
+// lastly added for scrolling texts
+
+    function despawnHackerVisuals() {
+            hackerIntervals.forEach(clearInterval); hackerIntervals = [];
+            const canvas = document.getElementById('hackerCanvas');
+            if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        function initHackerMatrix() { const canvas = document.getElementById('hackerCanvas'), ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; const chars = "01", fontSize = 14, columns = Math.ceil(canvas.width / fontSize), drops = Array(columns).fill(1).map(() => Math.random() * canvas.height), colors = ['#39ff14', '#0ff0fc', '#9457eb', '#f5f749']; function draw() { ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.font = `${fontSize}px monospace`; for (let i = 0; i < drops.length; i++) { const text = chars.charAt(Math.floor(Math.random() * chars.length)); ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)]; ctx.fillText(text, i * fontSize, drops[i] * fontSize); if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0; drops[i]++; } } hackerIntervals.push(setInterval(draw, 50)); }
+        function initHackerTextScroller() { const scroller = document.querySelector('.hacker-text-scroller'); if (scroller.dataset.initialized) return; scroller.dataset.initialized = 'true'; let content = "SYSTEM SCANNING... // PORT 22 OPEN // EXECUTING PAYLOAD... // DECRYPTING HASHES... // ACCESS GRANTED // "; scroller.innerHTML = content.repeat(5); let pos = 0; function animate() { pos--; if (pos <= -scroller.scrollWidth / 5) pos = 0; scroller.style.transform = `translateX(${pos}px)`; requestAnimationFrame(animate); } animate(); }
+
+
 
     // --- INITIALIZATION ---
     function initialize() {
