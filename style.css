@@ -2,30 +2,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
 
 /* --- Base Styles --- */
-body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+body { 
+    font-family: 'Poppins', sans-serif; 
+    scroll-behavior: smooth; 
+    overflow-x: hidden;
+}
 .skill-bar { height: 10px; transition: width 1.5s ease-in-out; }
 .card-hover:hover { transform: translateY(-10px); }
 .navbar { backdrop-filter: blur(10px); }
 
-/* --- Themes & Cursors --- */
-:root, .light, .dark { cursor: none; }
-.light { --bg-primary: #f8f5f0; --bg-secondary: #ffffff; --text-primary: #1f2937; --text-secondary: #4b5563; --accent: #3b82f6; --shadow: rgba(0,0,0,0.07); --header-bg: rgba(248,245,240,0.85); --border-color: #e5e7eb; }
+/* --- Themes --- */
+:root, .light { --bg-primary: #f8f5f0; --bg-secondary: #ffffff; --text-primary: #1f2937; --text-secondary: #4b5563; --accent: #3b82f6; --shadow: rgba(0,0,0,0.07); --header-bg: rgba(248,245,240,0.85); --border-color: #e5e7eb; }
 .dark { --bg-primary: #111827; --bg-secondary: #1F2937; --text-primary: #F3F4F6; --text-secondary: #D1D5DB; --accent: #6366F1; --shadow: rgba(99,102,241,0.15); --header-bg: rgba(17,24,39,0.85); --border-color: #374151; }
-.hacker { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2339ff14" stroke-width="2"><style>line{animation:curs-flicker 1s infinite;}</style><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>') 12 12, crosshair; --bg-primary: #000; --bg-secondary: #0d0208; --text-primary: #39ff14; --text-secondary: #00ff41; --accent: #0ff0fc; --shadow: rgba(0,255,153,0.25); --header-bg: rgba(0,8,8,0.85); --border-color: #0d2b13; font-family: 'Fira Code', monospace !important; --neon-red: #ff073a; --neon-cyan: #00f9ff; --neon-magenta: #ff00f1; }
-@keyframes curs-flicker{50%{opacity:0.5}}
+.hacker { --bg-primary: #000; --bg-secondary: #0d0208; --text-primary: #39ff14; --text-secondary: #00ff41; --accent: #0ff0fc; --shadow: rgba(0,255,153,0.25); --header-bg: rgba(0,8,8,0.85); --border-color: #0d2b13; font-family: 'Fira Code', monospace !important; --neon-red: #ff073a; --neon-cyan: #00f9ff; --neon-magenta: #ff00f1; }
 
 /* --- Global Theme Application --- */
 body { background-color: var(--bg-primary); color: var(--text-primary); transition: background-color 0.5s ease, color 0.5s ease; }
-.card-hover, .form-input { background-color: var(--bg-secondary) !important; border-color: var(--border-color) !important; color: var(--text-primary) !important; box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow); transition: all 0.3s ease; }
+.card-hover, input, textarea { background-color: var(--bg-secondary) !important; border-color: var(--border-color) !important; color: var(--text-primary) !important; box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow); transition: all 0.3s ease; }
 a, .text-blue-500 { color: var(--accent) !important; }
 .navbar { background-color: var(--header-bg) !important; border-bottom: 1px solid var(--border-color); }
 .border-blue-500 { border-color: var(--accent) !important; }
-.dark .bg-gray-100, .hacker section { background-color: transparent !important; }
+.dark .bg-gray-100, .hacker .bg-gray-100 { background-color: var(--bg-primary) !important; }
 
-/* --- Light/Dark Theme Animations --- */
-.cursor-trail-container .trail { position: fixed; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; animation: trail-fade 0.5s forwards; }
-@keyframes trail-fade { to { width: 0; height: 0; opacity: 0; } }
-.light .zoom-hover-char:hover, .dark .zoom-hover-char:hover { transform: scale(1.4); color: var(--accent); transition: transform 0.2s ease; display: inline-block; position: relative; z-index: 10; }
+/* --- Light/Dark Theme "Kinetic Shuffle" & Zoom Animation --- */
 #subtitle-container .letter-shuffle { display: inline-block; opacity: 0; transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0)); transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.8s; }
 #subtitle-container.active .letter-shuffle { opacity: 1; transform: translate(0,0) rotate(0); }
 #subtitle-container.active .letter-shuffle:hover { transform: scale(1.5); color: var(--accent); z-index: 10; position: relative; transition: transform 0.2s ease; }
@@ -33,8 +32,8 @@ a, .text-blue-500 { color: var(--accent) !important; }
 /* --- Hacker Theme Specifics --- */
 .hacker-visual, .hacker-popup { display: none; }
 .hacker .hacker-visual, .hacker .hacker-popup { display: block; }
-.hacker *:not(.popup-content *):not(.hacker-text-scroller *) { animation: text-flicker 4s infinite alternate; }
-@keyframes text-flicker { 0%,18%,22%,25%,53%,57%,100% { text-shadow: 0 0 4px #fff, 0 0 8px var(--text-primary), 0 0 12px var(--accent); } 20%,24%,55% { text-shadow: none; } }
+.hacker * { animation: text-flicker 4s infinite alternate; }
+@keyframes text-flicker { 0%,18%,22%,25%,53%,57%,100% { text-shadow: 0 0 4px #fff, 0 0 10px var(--text-primary), 0 0 18px var(--accent); } 20%,24%,55% { text-shadow: none; } }
 .hacker .glitch-text { position: relative; color: var(--text-primary); }
 .hacker .glitch-text::before, .hacker .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; background: var(--bg-primary); clip: rect(0, 900px, 0, 0); }
 .hacker .glitch-text::before { left: 2px; text-shadow: -2px 0 var(--neon-magenta); animation: glitch-anim-1 2s infinite linear alternate-reverse; }
@@ -47,48 +46,59 @@ a, .text-blue-500 { color: var(--accent) !important; }
 .hacker .crt-effect img { animation: image-glitch 5s infinite steps(1); }
 @keyframes image-glitch { 0%,100%{clip-path:inset(0 0 0 0)} 5%{clip-path:inset(10% 0 85% 0)} 10%{clip-path:inset(90% 0 5% 0)} 15%{clip-path:inset(40% 0 42% 0)} 20%{clip-path:inset(0 0 0 0)} }
 .hacker .crt-effect::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 3px, 4px 100%; animation: scanline-anim 20s linear infinite; }
+.hacker .screen-glitch-line { position: fixed; left: 0; width: 100%; height: 2px; background: var(--accent); opacity: 0.5; z-index: 1000; pointer-events: none; animation: screen-glitch-anim 7s infinite; }
+@keyframes screen-glitch-anim { 0%,100%{top:50%;opacity:0} 49%{top:50%;opacity:0} 50%{top:20%;opacity:0.5} 51%{top:80%;opacity:0.2} 52%{top:50%;opacity:0} }
 .hacker-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; animation: popup-in 0.3s ease-out; }
 .hacker-popup.hidden { animation: popup-out 0.3s ease-in forwards; pointer-events: none; }
-.popup-content { background-color: var(--bg-secondary); border: 1px solid var(--accent); box-shadow: 0 0 30px var(--accent); padding: 0.5rem; width: 90vw; max-width: 400px; }
+.popup-content { background-color: var(--bg-secondary); border: 1px solid var(--accent); box-shadow: 0 0 30px var(--accent); padding: 0.5rem; width: 90vw; max-width: 450px; }
 .popup-header { display: flex; justify-content: space-between; align-items: center; background-color: var(--accent); color: #000; padding: 0.25rem 0.5rem; }
 .popup-header .dots { display: flex; gap: 0.5rem; } .popup-header .dot { width: 12px; height: 12px; border-radius: 50%; background-color: rgba(0,0,0,0.3); }
 .popup-body { padding: 1.5rem; }
 .popup-body p::after { content: '▋'; animation: blink 0.7s infinite; } .popup-body p.completed::after { content: ''; }
 @keyframes popup-in { from { opacity: 0; transform: translate(-50%, -40%) scale(0.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
 @keyframes popup-out { to { opacity: 0; transform: translate(-50%, -40%) scale(0.9); } }
-.hacker #hacker-trigger { cursor: pointer; text-decoration: underline; animation: blink 1.5s infinite; }
-@keyframes blink { 50% { opacity: 0.5; } }
-
-/* --- Enhanced Form Styles --- */
-.form-group { position: relative; margin-top: 1.5rem; }
-.form-input { width: 100%; padding: 12px; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
-.form-label { position: absolute; left: 12px; top: 14px; color: var(--text-secondary); pointer-events: none; transition: all 0.2s ease; background-color: var(--bg-secondary); padding: 0 4px; }
-.form-input:focus + .form-label, .form-input:not(:placeholder-shown) + .form-label { transform: translateY(-25px) scale(0.9); color: var(--accent); }
-.form-input:focus { border-color: var(--accent); }
-#submit-btn { position: relative; overflow: hidden; }
-#submit-btn .spinner { display: none; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-#submit-btn.loading .btn-text { visibility: hidden; }
-#submit-btn.loading .spinner { display: block; position: absolute; top: 50%; left: 50%; margin-top: -10px; margin-left: -10px; }
-#submit-btn.success { background-color: #22c55e !important; }
-#submit-btn.error { background-color: #ef4444 !important; }
+@keyframes blink { 50% { opacity: 0; } }
+.binary-trail { position: absolute; pointer-events: none; color: var(--text-primary); font-family: 'Fira Code', monospace; font-size: 14px; animation: fade-out 1s forwards; }
+@keyframes fade-out { to { opacity: 0; transform: translateY(-20px); } }
+.hacker .footer-icon:hover { animation: intense-glitch 0.5s infinite; }
+@keyframes intense-glitch { 0%,100%{transform:translate(0,0)} 25%{transform:translate(3px,-2px)} 50%{transform:translate(-2px,2px)} 75%{transform:translate(1px,-1px)} }
 
 /* --- Glowing Theme Switcher --- */
 .theme-switcher button { transition: all 0.3s ease; }
 .dark #light-theme, .hacker #light-theme { box-shadow: 0 0 10px #fff, 0 0 15px #fff; border-color: #fff !important; }
 .light #dark-theme { box-shadow: 0 0 0 2px var(--text-primary); }
 .dark #dark-theme, .hacker #dark-theme { box-shadow: 0 0 10px var(--accent), 0 0 15px var(--accent); }
-.active-theme { border-width: 3px !important; transform: scale(1.15); box-shadow: 0 0 15px var(--accent) !important; }
+.light .active-theme, .dark .active-theme, .hacker .active-theme { border-width: 3px !important; transform: scale(1.15); box-shadow: 0 0 15px var(--accent); }
 
 /* --- General Animations --- */
+.cursor-sparkle { position: absolute; pointer-events: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: sparkle-anim 0.8s forwards; }
+@keyframes sparkle-anim { to { transform: scale(0); opacity: 0; } }
 .floating { animation: heroFloatWobble 8s ease-in-out infinite; }
 @keyframes heroFloatWobble { 0%{transform:translateY(0px) rotate(-1deg)} 50%{transform:translateY(-20px) rotate(1deg)} 100%{transform:translateY(0px) rotate(-1deg)} }
-.light-bubbles, .dark-stars { display: none; }
-.light .light-bubbles, .dark .dark-stars { display: block; }
+
+/* --- Light Theme Bubbles --- */
 .light-bubbles .bubble { position: absolute; bottom: -150px; background: rgba(59,130,246,0.1); border-radius: 50%; animation: bubbleRise linear infinite; }
 @keyframes bubbleRise { 100% { transform: translateY(-120vh) translateX(5vw); } }
-.light-bubbles .bubble:nth-child(1){width:40px;height:40px;left:10%;animation-duration:15s} .light-bubbles .bubble:nth-child(2){width:20px;height:20px;left:20%;animation-duration:9s;animation-delay:2s} .light-bubbles .bubble:nth-child(3){width:50px;height:50px;left:35%;animation-duration:20s} .light-bubbles .bubble:nth-child(4){width:30px;height:30px;left:50%;animation-duration:12s;animation-delay:5s} .light-bubbles .bubble:nth-child(5){width:60px;height:60px;left:70%;animation-duration:18s;animation-delay:1s} .light-bubbles .bubble:nth-child(6){width:35px;height:35px;left:85%;animation-duration:10s;animation-delay:3s}
-.animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -20; }
-.light .animated-bg { background: linear-gradient(45deg, #e0f7fa, #fce4ec, #e8eaf6, #e0f7fa); background-size: 400% 400%; animation: gradient-bg 20s ease infinite; }
-.dark .animated-bg { background: linear-gradient(45deg, #2c3e50, #4b1248, #1f2937, #2c3e50); background-size: 400% 400%; animation: gradient-bg 20s ease infinite; }
-@keyframes gradient-bg { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.light .light-bubbles .bubble:nth-child(1){width:40px;height:40px;left:10%;animation-duration:15s} .light .light-bubbles .bubble:nth-child(2){width:20px;height:20px;left:20%;animation-duration:9s;animation-delay:2s} .light .light-bubbles .bubble:nth-child(3){width:50px;height:50px;left:35%;animation-duration:20s} .light .light-bubbles .bubble:nth-child(4){width:30px;height:30px;left:50%;animation-duration:12s;animation-delay:5s} .light .light-bubbles .bubble:nth-child(5){width:60px;height:60px;left:70%;animation-duration:18s;animation-delay:1s} .light .light-bubbles .bubble:nth-child(6){width:35px;height:35px;left:85%;animation-duration:10s;animation-delay:3s}
+
+/* --- Dark Theme Stars (Twinkling & Falling) --- */
+.dark-stars .star { 
+    position: absolute; 
+    background-color: white; 
+    border-radius: 50%; 
+    animation: twinkle 5s infinite ease-in-out; 
+}
+@keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 0.8; transform: scale(1); } }
+
+.dark-stars .falling-star {
+    position: absolute;
+    height: 1.5px;
+    background: linear-gradient(-45deg, #fff, rgba(255, 255, 255, 0));
+    border-radius: 999px;
+    filter: drop-shadow(0 0 6px #fff);
+    animation: falling-star-anim 7s ease-in-out infinite;
+}
+@keyframes falling-star-anim {
+    0% { transform: translateX(0) translateY(0) rotate(45deg); opacity: 1; }
+    100% { transform: translateX(-150vw) translateY(150vh) rotate(45deg); opacity: 0; }
+}
