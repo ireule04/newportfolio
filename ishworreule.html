@@ -157,9 +157,12 @@
                     <p class="mb-2">Hello, I am</p>
                     <h1 class="text-4xl md:text-6xl font-bold mb-4" data-text="Ishwor Kumar Reule">Ishwor Kumar Reule</h1>
                     <div class="h-10"><h2 id="subtitle-container" class="text-2xl md:text-3xl font-semibold mb-6"></h2></div>
-                    <a href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCKCCRsVqKhrglFRsxKLKsSGCzcprHZcnqQhlvDKltGBqTzKWBcqnPnJJqMCVTZMMRrDznNV" class="inline-block bg-blue-500 text-white font-medium py-3 px-6 rounded-lg transition duration-300 mt-4">Hire Me</a>
+<a href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCKCCRsVqKhrglFRsxKLKsSGCzcprHZcnqQhlvDKltGBqTzKWBcqnPnJJqMCVTZMMRrDznNV" 
+   class="inline-block bg-blue-500 !text-white font-medium py-3 px-6 rounded-lg transition duration-300 mt-4">
+   Hire Me
+</a>
                 </div>
-                <div class="md:w-1/2 flex justify-center"><div class="crt-effect"><img src="https://ishworreule.com.np/bb.png" alt="Ishwor Reule" class="floating rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-blue-500 shadow-xl"></div></div>
+                <div class="md:w-1/2 flex justify-center"><div class="crt-effect"><img src="C:\Users\Ishwor\OneDrive\Desktop\newportfolio\Profile.jpg" alt="Ishwor Reule" class="floating rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-blue-500 shadow-xl"></div></div>
             </div>
         </div>
     </section>
@@ -281,10 +284,18 @@
                 'popup-2': [{ el: document.getElementById('popup-2-line-1'), text: "System integrity compromised." }, { el: document.getElementById('popup-2-line-2'), text: "> FIREWALL_BREACHED" }],
                 'popup-3': [{ el: document.getElementById('popup-3-line-1'), text: "Extracting 1.2TB of encrypted data..." }, { el: document.getElementById('popup-3-line-2'), text: "> TRANSFER_COMPLETE" }]
             };
-            const popupLines = lines[id.split('-')[1]];
-            typeOutText(popupLines[0].el, popupLines[0].text, () => {
-                if(popupLines[1]) setTimeout(() => typeOutText(popupLines[1].el, popupLines[1].text), 300);
-            });
+
+
+         const popupKey = id.replace('hacker-', '');
+const popupLines = lines[popupKey];
+if (!popupLines) return;
+typeOutText(popupLines[0].el, popupLines[0].text, () => {
+  if (popupLines[1]) setTimeout(() => typeOutText(popupLines[1].el, popupLines[1].text), 300);
+});
+
+
+
+               
         }
         function typeOutText(element, text, onComplete = () => {}) { if(!element) return; let i = 0; element.innerHTML = ''; element.classList.remove('completed'); function type() { if (i < text.length) { element.innerHTML += text.charAt(i++); setTimeout(type, 40); } else { element.classList.add('completed'); onComplete(); } } type(); }
         document.querySelectorAll('.popup-close-btn').forEach(btn => btn.addEventListener('click', (e) => { const modal = e.target.closest('.hacker-popup'); modal.classList.add('hidden'); setTimeout(() => { modal.style.display = 'none'; }, 300); }));
