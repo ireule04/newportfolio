@@ -11,7 +11,8 @@ body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
 :root, .light, .dark { cursor: none; }
 .light { --bg-primary: #f8f5f0; --bg-secondary: #ffffff; --text-primary: #1f2937; --text-secondary: #4b5563; --accent: #3b82f6; --shadow: rgba(0,0,0,0.07); --header-bg: rgba(248,245,240,0.85); --border-color: #e5e7eb; }
 .dark { --bg-primary: #111827; --bg-secondary: #1F2937; --text-primary: #F3F4F6; --text-secondary: #D1D5DB; --accent: #6366F1; --shadow: rgba(99,102,241,0.15); --header-bg: rgba(17,24,39,0.85); --border-color: #374151; }
-.hacker { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2339ff14" stroke-width="2"><path d="M12 5V19M5 12H19"/></svg>') 12 12, crosshair; --bg-primary: #000; --bg-secondary: #0d0208; --text-primary: #39ff14; --text-secondary: #00ff41; --accent: #0ff0fc; --shadow: rgba(0,255,153,0.25); --header-bg: rgba(0,8,8,0.85); --border-color: #0d2b13; font-family: 'Fira Code', monospace !important; --neon-red: #ff073a; --neon-cyan: #00f9ff; --neon-magenta: #ff00f1; }
+.hacker { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2339ff14" stroke-width="2"><style>line{animation:curs-flicker 1s infinite;}</style><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>') 12 12, crosshair; --bg-primary: #000; --bg-secondary: #0d0208; --text-primary: #39ff14; --text-secondary: #00ff41; --accent: #0ff0fc; --shadow: rgba(0,255,153,0.25); --header-bg: rgba(0,8,8,0.85); --border-color: #0d2b13; font-family: 'Fira Code', monospace !important; --neon-red: #ff073a; --neon-cyan: #00f9ff; --neon-magenta: #ff00f1; }
+@keyframes curs-flicker{50%{opacity:0.5}}
 
 /* --- Global Theme Application --- */
 body { background-color: var(--bg-primary); color: var(--text-primary); transition: background-color 0.5s ease, color 0.5s ease; }
@@ -19,12 +20,12 @@ body { background-color: var(--bg-primary); color: var(--text-primary); transiti
 a, .text-blue-500 { color: var(--accent) !important; }
 .navbar { background-color: var(--header-bg) !important; border-bottom: 1px solid var(--border-color); }
 .border-blue-500 { border-color: var(--accent) !important; }
-.dark .bg-gray-100, .hacker .bg-gray-100 { background-color: var(--bg-primary) !important; }
+.dark .bg-gray-100, .hacker section { background-color: transparent !important; }
 
 /* --- Light/Dark Theme Animations --- */
-.cursor-dot { position: fixed; top: 0; left: 0; width: 8px; height: 8px; background-color: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s ease-out; }
-.cursor-ring { position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 2px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: all 0.2s ease-out; }
-.light .zoom-hover-word:hover, .dark .zoom-hover-word:hover { transform: scale(1.1); color: var(--accent); transition: transform 0.2s ease; display: inline-block; }
+.cursor-trail-container .trail { position: fixed; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; animation: trail-fade 0.5s forwards; }
+@keyframes trail-fade { to { width: 0; height: 0; opacity: 0; } }
+.light .zoom-hover-char:hover, .dark .zoom-hover-char:hover { transform: scale(1.4); color: var(--accent); transition: transform 0.2s ease; display: inline-block; position: relative; z-index: 10; }
 #subtitle-container .letter-shuffle { display: inline-block; opacity: 0; transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0)); transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.8s; }
 #subtitle-container.active .letter-shuffle { opacity: 1; transform: translate(0,0) rotate(0); }
 #subtitle-container.active .letter-shuffle:hover { transform: scale(1.5); color: var(--accent); z-index: 10; position: relative; transition: transform 0.2s ease; }
@@ -87,6 +88,7 @@ a, .text-blue-500 { color: var(--accent) !important; }
 .light-bubbles .bubble { position: absolute; bottom: -150px; background: rgba(59,130,246,0.1); border-radius: 50%; animation: bubbleRise linear infinite; }
 @keyframes bubbleRise { 100% { transform: translateY(-120vh) translateX(5vw); } }
 .light-bubbles .bubble:nth-child(1){width:40px;height:40px;left:10%;animation-duration:15s} .light-bubbles .bubble:nth-child(2){width:20px;height:20px;left:20%;animation-duration:9s;animation-delay:2s} .light-bubbles .bubble:nth-child(3){width:50px;height:50px;left:35%;animation-duration:20s} .light-bubbles .bubble:nth-child(4){width:30px;height:30px;left:50%;animation-duration:12s;animation-delay:5s} .light-bubbles .bubble:nth-child(5){width:60px;height:60px;left:70%;animation-duration:18s;animation-delay:1s} .light-bubbles .bubble:nth-child(6){width:35px;height:35px;left:85%;animation-duration:10s;animation-delay:3s}
-.dark-stars { background: transparent; }
-.dark-stars .star { position: absolute; background: white; border-radius: 50%; animation: star-fall linear infinite; }
-@keyframes star-fall { to { transform: translateY(100vh); } }
+.animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -20; }
+.light .animated-bg { background: linear-gradient(45deg, #e0f7fa, #fce4ec, #e8eaf6, #e0f7fa); background-size: 400% 400%; animation: gradient-bg 20s ease infinite; }
+.dark .animated-bg { background: linear-gradient(45deg, #2c3e50, #4b1248, #1f2937, #2c3e50); background-size: 400% 400%; animation: gradient-bg 20s ease infinite; }
+@keyframes gradient-bg { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
