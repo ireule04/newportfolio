@@ -2,11 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
 
 /* --- Base Styles --- */
-body { 
-    font-family: 'Poppins', sans-serif; 
-    scroll-behavior: smooth; 
-    overflow-x: hidden;
-}
+body { font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
 .skill-bar { height: 10px; transition: width 1.5s ease-in-out; }
 .card-hover:hover { transform: translateY(-10px); }
 .navbar { backdrop-filter: blur(10px); }
@@ -17,7 +13,7 @@ body {
 .hacker { --bg-primary: #000; --bg-secondary: #0d0208; --text-primary: #39ff14; --text-secondary: #00ff41; --accent: #0ff0fc; --shadow: rgba(0,255,153,0.25); --header-bg: rgba(0,8,8,0.85); --border-color: #0d2b13; font-family: 'Fira Code', monospace !important; --neon-red: #ff073a; --neon-cyan: #00f9ff; --neon-magenta: #ff00f1; }
 
 /* --- Global Theme Application --- */
-body { background-color: var(--bg-primary); color: var(--text-primary); transition: background-color 0.5s ease, color 0.5s ease; }
+body { background-color: var(--bg-primary); color: var(--text-primary); transition: background-color 0.5s ease, color 0.5s ease; overflow-x: hidden; }
 .card-hover, input, textarea { background-color: var(--bg-secondary) !important; border-color: var(--border-color) !important; color: var(--text-primary) !important; box-shadow: 0 4px 6px -1px var(--shadow), 0 2px 4px -1px var(--shadow); transition: all 0.3s ease; }
 a, .text-blue-500 { color: var(--accent) !important; }
 .navbar { background-color: var(--header-bg) !important; border-bottom: 1px solid var(--border-color); }
@@ -82,14 +78,10 @@ a, .text-blue-500 { color: var(--accent) !important; }
 .light .light-bubbles .bubble:nth-child(1){width:40px;height:40px;left:10%;animation-duration:15s} .light .light-bubbles .bubble:nth-child(2){width:20px;height:20px;left:20%;animation-duration:9s;animation-delay:2s} .light .light-bubbles .bubble:nth-child(3){width:50px;height:50px;left:35%;animation-duration:20s} .light .light-bubbles .bubble:nth-child(4){width:30px;height:30px;left:50%;animation-duration:12s;animation-delay:5s} .light .light-bubbles .bubble:nth-child(5){width:60px;height:60px;left:70%;animation-duration:18s;animation-delay:1s} .light .light-bubbles .bubble:nth-child(6){width:35px;height:35px;left:85%;animation-duration:10s;animation-delay:3s}
 
 /* --- Dark Theme Stars (Twinkling & Falling) --- */
-.dark-stars .star { 
-    position: absolute; 
-    background-color: white; 
-    border-radius: 50%; 
-    animation: twinkle 5s infinite ease-in-out; 
-}
+.dark-stars .star { position: absolute; background-color: white; border-radius: 50%; animation: twinkle 5s infinite ease-in-out; }
 @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 0.8; transform: scale(1); } }
 
+/* NEW: Falling Star Effect */
 .dark-stars .falling-star {
     position: absolute;
     height: 1.5px;
