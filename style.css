@@ -24,7 +24,7 @@ a, .text-blue-500 { color: var(--accent) !important; }
 /* --- Light/Dark Theme Animations --- */
 .cursor-dot { position: fixed; top: 0; left: 0; width: 8px; height: 8px; background-color: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s ease-out; }
 .cursor-ring { position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 2px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: all 0.2s ease-out; }
-.light .zoom-hover:hover, .dark .zoom-hover:hover { transform: scale(1.05); color: var(--accent); transition: transform 0.3s ease; display: inline-block; }
+.light .zoom-hover-word:hover, .dark .zoom-hover-word:hover { transform: scale(1.1); color: var(--accent); transition: transform 0.2s ease; display: inline-block; }
 #subtitle-container .letter-shuffle { display: inline-block; opacity: 0; transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0)); transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.8s; }
 #subtitle-container.active .letter-shuffle { opacity: 1; transform: translate(0,0) rotate(0); }
 #subtitle-container.active .letter-shuffle:hover { transform: scale(1.5); color: var(--accent); z-index: 10; position: relative; transition: transform 0.2s ease; }
@@ -82,6 +82,11 @@ a, .text-blue-500 { color: var(--accent) !important; }
 /* --- General Animations --- */
 .floating { animation: heroFloatWobble 8s ease-in-out infinite; }
 @keyframes heroFloatWobble { 0%{transform:translateY(0px) rotate(-1deg)} 50%{transform:translateY(-20px) rotate(1deg)} 100%{transform:translateY(0px) rotate(-1deg)} }
+.light-bubbles, .dark-stars { display: none; }
+.light .light-bubbles, .dark .dark-stars { display: block; }
 .light-bubbles .bubble { position: absolute; bottom: -150px; background: rgba(59,130,246,0.1); border-radius: 50%; animation: bubbleRise linear infinite; }
 @keyframes bubbleRise { 100% { transform: translateY(-120vh) translateX(5vw); } }
-.light .light-bubbles .bubble:nth-child(1){width:40px;height:40px;left:10%;animation-duration:15s} .light .light-bubbles .bubble:nth-child(2){width:20px;height:20px;left:20%;animation-duration:9s;animation-delay:2s} .light .light-bubbles .bubble:nth-child(3){width:50px;height:50px;left:35%;animation-duration:20s} .light .light-bubbles .bubble:nth-child(4){width:30px;height:30px;left:50%;animation-duration:12s;animation-delay:5s} .light .light-bubbles .bubble:nth-child(5){width:60px;height:60px;left:70%;animation-duration:18s;animation-delay:1s} .light .light-bubbles .bubble:nth-child(6){width:35px;height:35px;left:85%;animation-duration:10s;animation-delay:3s}
+.light-bubbles .bubble:nth-child(1){width:40px;height:40px;left:10%;animation-duration:15s} .light-bubbles .bubble:nth-child(2){width:20px;height:20px;left:20%;animation-duration:9s;animation-delay:2s} .light-bubbles .bubble:nth-child(3){width:50px;height:50px;left:35%;animation-duration:20s} .light-bubbles .bubble:nth-child(4){width:30px;height:30px;left:50%;animation-duration:12s;animation-delay:5s} .light-bubbles .bubble:nth-child(5){width:60px;height:60px;left:70%;animation-duration:18s;animation-delay:1s} .light-bubbles .bubble:nth-child(6){width:35px;height:35px;left:85%;animation-duration:10s;animation-delay:3s}
+.dark-stars { background: transparent; }
+.dark-stars .star { position: absolute; background: white; border-radius: 50%; animation: star-fall linear infinite; }
+@keyframes star-fall { to { transform: translateY(100vh); } }
