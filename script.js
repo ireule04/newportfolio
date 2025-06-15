@@ -466,10 +466,24 @@
             const namespace = 'ishwor-reule-portfolio-final';
             const hasVisited = localStorage.getItem(namespace);
             const getCount = () => {
-                fetch(`https://api.countapi.xyz/get/${namespace}/visits`)
-                .then(res => res.json()).then(data => { if (data.value) countElement.textContent = data.value.toLocaleString(); })
-                .catch(() => countElement.textContent = 'N/A');
+               let data;
+fetch(`https://api.countapi.xyz/get/${namespace}/visits`)
+    .then(res => res.json())
+    .then(data => {
+        if (data.value) 
+             console.log("API response value:", data.value);
+            countElement.textContent = data.value.toLocaleString();
+    })
+    .catch(() => {
+        countElement.textContent = 'N/A';
+    });
+
+           
+           
+           
+           
             };
+          
             if (!hasVisited) {
                 localStorage.setItem(namespace, 'true');
                 fetch(`https://api.countapi.xyz/hit/${namespace}/visits`).then(res => res.json()).then(data => {
