@@ -4,6 +4,7 @@
     // --- State Management ---
     const state = {
         currentTheme: 'light',
+        themeVersion: 0,
         isMuted: false,
         audioUnlocked: false,
         activeThemeSound: null,
@@ -26,17 +27,9 @@
         rainCanvas: document.getElementById('rainCanvas'),
         lightning: document.getElementById('lightning'),
         sounds: {
-
-
-
-    
-    glitch: document.getElementById('glitch-sound'),
-    glitchy: document.getElementById('glitchy-sound'),
-    rain: document.getElementById('rain-sound'),
-
-
-
-            
+            hackerAmbient: document.getElementById('glitch-sound'),
+            hackerPopup: document.getElementById('glitchy-sound'),
+            rain: document.getElementById('rain-sound')
         }
     };
 
@@ -55,14 +48,6 @@
     function unlockAudio() {
         if (state.audioUnlocked) return;
         state.audioUnlocked = true;
-        Object.values(elements.sounds).forEach(sound => {
-            if (sound && sound.paused) {
-                const promise = sound.play();
-                if (promise !== undefined) {
-                    promise.then(() => sound.pause()).catch(() => {});
-                }
-            }
-        });
         if (state.activeThemeSound && !state.isMuted) {
             state.activeThemeSound.play().catch(e => console.warn("Audio failed on unlock:", e.message));
         }
@@ -124,6 +109,8 @@
     function clearAllEffects() {
         state.effectIntervals.forEach(id => clearInterval(id));
         state.effectIntervals = [];
+        document.querySelectorAll('.hacker-popup').forEach(popup => popup.classList.add('hidden'));
+        elements.sounds.hackerPopup?.pause();
         if (state.animationFrameId) {
             cancelAnimationFrame(state.animationFrameId);
             state.animationFrameId = null;
@@ -138,6 +125,7 @@
 
     function applyTheme(theme) {
         clearAllEffects();
+        state.themeVersion++;
         state.currentTheme = theme;
         elements.doc.className = theme;
         localStorage.setItem('portfolio_theme', theme);
@@ -219,9 +207,9 @@
         });
 
         const lightningInterval = setInterval(() => {
-            if (state.currentTheme === 'dark' && Math.random() > 0.3) { // Occasional flashes
+            if (elements.lightning && state.currentTheme === 'dark' && Math.random() > 0.3) { // Occasional flashes
                 elements.lightning.classList.add('flash');
-                playSound(elements.sounds.lightning);
+
                 setTimeout(() => elements.lightning.classList.remove('flash'), 700);
             }
         }, 8000);
@@ -300,6 +288,7 @@
     
     async function startHackerSubtitleCycle() {
         robustQuery('#subtitle-container', async container => {
+            const version = state.themeVersion;
             container.classList.remove('active');
             const phrases = ['[INITIALIZING...]', '[BREACHING_FIREWALL...]', '[ACCESS_GRANTED]'];
             const chars = "!<>-_\\/[]{}—=+*^?#";
@@ -310,15 +299,17 @@
                 for (let charIndex = 0; charIndex < text.length; charIndex++) {
                     if (state.currentTheme !== 'hacker') return;
                     for (let j = 0; j < 3; j++) {
+                        if (version !== state.themeVersion) return;
                         container.textContent = currentText + chars[Math.floor(Math.random() * chars.length)];
                         await new Promise(resolve => setTimeout(resolve, 20));
                     }
+                    if (version !== state.themeVersion) return;
                     currentText += text[charIndex];
                     container.textContent = currentText;
                 }
             }
             
-            while (state.currentTheme === 'hacker') {
+            while (version === state.themeVersion) {
                 await scrambleText(phrases[i]);
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 i = (i + 1) % phrases.length;
@@ -327,10 +318,18 @@
     }
 
     function showToast(message, type = 'success') {
+        if (!document.getElementById('toast')) {
+            robustQuery('#form-message', status => {
+                status.textContent = message;
+                status.classList.remove('hidden');
+            });
+            return;
+        }
+        clearTimeout(state.toastTimer);
         robustQuery('#toast', toast => {
             robustQuery('#toast-message', msgEl => msgEl.textContent = message);
             toast.className = `fixed top-5 right-5 p-4 rounded-lg shadow-lg text-white opacity-0 transition-all duration-300 -translate-y-12 ${type} visible`;
-            setTimeout(() => toast.classList.remove('visible'), 4000);
+            state.toastTimer = setTimeout(() => toast.classList.remove('visible'), 4000);
         });
     }
     
@@ -354,8 +353,29 @@
         document.body.addEventListener('click', unlockAudio, { once: true });
         document.addEventListener('keydown', e => {
             unlockAudio();
+            if (e.target.isContentEditable || e.target.closest('input, textarea, select') ||
+                e.repeat || e.ctrlKey || e.altKey || e.metaKey) return;
             if (e.key.toLowerCase() === 'm') elements.muteButton?.click();
         });
+
+        const menu = document.getElementById('mobile-menu');
+        const menuButton = document.getElementById('mobile-menu-button');
+        if (menu && menuButton) {
+            const setOpen = open => {
+                menu.classList.toggle('hidden', !open);
+                menuButton.setAttribute('aria-expanded', String(open));
+            };
+            menuButton.addEventListener('click', () => setOpen(menu.classList.contains('hidden')));
+            menu.addEventListener('click', e => {
+                if (e.target.closest('a, button')) setOpen(false);
+            });
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+                    setOpen(false);
+                    menuButton.focus();
+                }
+            });
+        }
 
         elements.themeButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -371,7 +391,8 @@
                 const icon = button.querySelector('i');
                 if (state.isMuted) {
                     icon?.classList.replace('fa-volume-up', 'fa-volume-mute');
-                    if (state.activeThemeSound) state.activeThemeSound.pause();
+                    state.activeThemeSound?.pause();
+                    elements.sounds.hackerPopup?.pause();
                 } else {
                     icon?.classList.replace('fa-volume-mute', 'fa-volume-up');
                     if (state.activeThemeSound && state.audioUnlocked) {
@@ -387,7 +408,8 @@
         robustQuery('#hacker-volume-slider input', input => {
             input.addEventListener('input', e => {
                 const vol = e.target.value;
-                Object.values(elements.sounds).forEach(sound => { if(sound && sound.id.startsWith('hacker')) sound.volume = vol; });
+                if (elements.sounds.hackerAmbient) elements.sounds.hackerAmbient.volume = vol;
+                if (elements.sounds.hackerPopup) elements.sounds.hackerPopup.volume = vol;
             });
         });
 
@@ -395,7 +417,7 @@
             input.addEventListener('input', e => {
                 const vol = e.target.value;
                 if(elements.sounds.rain) elements.sounds.rain.volume = vol;
-                if(elements.sounds.lightning) elements.sounds.lightning.volume = vol;
+
             });
         });
 
@@ -426,6 +448,9 @@
         robustQuery('#contact-form', form => {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
+                const submit = form.querySelector('button[type="submit"]');
+                if (submit.disabled) return;
+                submit.disabled = true;
                 const formData = new FormData(form);
                 const object = Object.fromEntries(formData.entries());
                 const json = JSON.stringify(object);
@@ -437,14 +462,15 @@
                 })
                 .then(async (response) => {
                     let jsonRes = await response.json();
-                    if (response.status == 200) {
+                    if (response.ok && jsonRes.success) {
+                        form.reset();
                         showToast('Message sent successfully!', 'success');
                     } else {
                         showToast(jsonRes.message || 'An error occurred.', 'error');
                     }
                 })
                 .catch(() => showToast('An error occurred.', 'error'))
-                .finally(() => form.reset());
+                .finally(() => { submit.disabled = false; });
             });
         });
         
